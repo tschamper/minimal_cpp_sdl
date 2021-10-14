@@ -13,17 +13,15 @@ uint64_t millis()
 
 void render_scene(std::vector<uint32_t>& pixels, int width, int height)
 {
-	auto start = std::chrono::high_resolution_clock::now();
+	auto start = millis();
 	std::fill(pixels.begin(), pixels.end(), 0);
 	for (int y = 0; y < height; ++y) {
 		for (int x = 0; x < width; ++x) {
 			// do stuff
 		}
 	}
-	auto elapsed = std::chrono::high_resolution_clock::now() - start;
-	if (auto t = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count(); t > 0) {
-		int fps = 1000000 / t;
-		std::cout << std::setw(4) << fps << " fps\r";
+	if (auto elapsed = millis() - start; elapsed > 0) {
+		std::cout << std::setw(4) << (1000 / elapsed) << " fps\r";
 	}
 }
 

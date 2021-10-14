@@ -39,6 +39,7 @@ Screen<width, height>::Screen(std::string name)
 		exit(1);
 	}
 	mTexture = SDL_CreateTexture(mRenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, width, height);
+	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "best");
 }
 
 template <int width, int height>
