@@ -1,4 +1,13 @@
+#include<chrono>
+
 #include "Screen.h"
+
+uint64_t millis()
+{
+	uint64_t ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::
+		now().time_since_epoch()).count();
+	return ms;
+}
 
 int main(int argc, char* argv[])
 {
@@ -14,7 +23,15 @@ int main(int argc, char* argv[])
 			is_running = false;
 		}
 		std::fill(pixels.begin(), pixels.end(), 0);
-        // fill pixels
+		auto start = std::chrono::high_resolution_clock::now();
+		/////////////////
+        // fill pixels //
+		/////////////////
+		auto elapsed = std::chrono::high_resolution_clock::now() - start;
+		if (auto t = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count(); t > 0) {
+			int fps = 1000000 / t;
+			std::cout << fps << std::endl;
+		}
 		screen.update_texture(pixels);
 	}
 	return 0;
