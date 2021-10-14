@@ -1,4 +1,7 @@
+
 #include<chrono>
+#include<iomanip>
+#include<iostream>
 
 #include "Screen.h"
 
@@ -25,12 +28,12 @@ int main(int argc, char* argv[])
 		std::fill(pixels.begin(), pixels.end(), 0);
 		auto start = std::chrono::high_resolution_clock::now();
 		/////////////////
-        // fill pixels //
+		// fill pixels //
 		/////////////////
 		auto elapsed = std::chrono::high_resolution_clock::now() - start;
 		if (auto t = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count(); t > 0) {
 			int fps = 1000000 / t;
-			std::cout << fps << std::endl;
+			std::cout << std::setw(4) << fps << " fps\r";
 		}
 		screen.update_texture(pixels);
 	}
