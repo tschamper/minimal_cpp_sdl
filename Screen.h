@@ -6,7 +6,7 @@
 
 #include "SDL.h"
 
-template<int mWidth, int mHeight>
+template<int width, int height>
 class Screen
 {
 private:
@@ -21,14 +21,14 @@ public:
 	void update_texture(const std::vector<uint32_t>& pixels);
 };
 
-template <int mWidth, int mHeight>
-Screen<mWidth, mHeight>::Screen(std::string name)
+template <int width, int height>
+Screen<width, height>::Screen(std::string name)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		fprintf(stderr, "Could not init SDL: %s\n", SDL_GetError());
 		exit(1);
 	}
-	mWindow = SDL_CreateWindow(name.data(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, mWidth, mHeight, 0);
+	mWindow = SDL_CreateWindow(name.data(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, 0);
 	if (!mWindow) {
 		fprintf(stderr, "Could not create window\n");
 		exit(1);
@@ -38,18 +38,18 @@ Screen<mWidth, mHeight>::Screen(std::string name)
 		fprintf(stderr, "Could not create renderer\n");
 		exit(1);
 	}
-	mTexture = SDL_CreateTexture(mRenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, mWidth, mHeight);
+	mTexture = SDL_CreateTexture(mRenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, width, height);
 }
 
-template <int mWidth, int mHeight>
-Screen<mWidth, mHeight>::~Screen()
+template <int width, int height>
+Screen<width, height>::~Screen()
 {
 	SDL_DestroyWindow(mWindow);
 	SDL_Quit();
 }
 
-template <int mWidth, int mHeight>
-int Screen<mWidth, mHeight>::poll_events()
+template <int width, int height>
+int Screen<width, height>::poll_events()
 {
 	SDL_Event event;
 	while (SDL_PollEvent(&event)) {
@@ -68,10 +68,10 @@ int Screen<mWidth, mHeight>::poll_events()
 	}
 }
 
-template <int mWidth, int mHeight>
-void Screen<mWidth, mHeight>::update_texture(const std::vector<uint32_t>& pixels)
+template <int width, int height>
+void Screen<width, height>::update_texture(const std::vector<uint32_t>& pixels)
 {
-	SDL_UpdateTexture(mTexture, nullptr, pixels.data(), mWidth * sizeof(uint32_t));
+	SDL_UpdateTexture(mTexture, nullptr, pixels.data(), width * sizeof(uint32_t));
 	SDL_RenderClear(mRenderer);
 	SDL_RenderCopy(mRenderer, mTexture, nullptr, nullptr);
 	SDL_RenderPresent(mRenderer);
